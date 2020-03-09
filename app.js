@@ -1,23 +1,16 @@
 var express = require('express');
-var assets = require('./config/assets')
 var logger = require('morgan');
-var Protocols = require('./config/protocols')
-var Router = require('./config/router')
-var ErrorHandler = require('./errors/handler')
+var protocols = require('./config/protocols')
+var router = require('./config/router')
+var assets = require('./config/assets')
+var handler = require('./config/handler')
 
 var app = express();
 
+app.use(logger('dev'))
+protocols.register(app)
+router.register(app)
 assets.register(app, __dirname)
-
-app.use(logger('dev'));
-
-protocols = new Protocols(app)
-protocols.register()
-
-router = new Router(app)
-router.register()
-
-handler = new ErrorHandler(app)
-handler.register()
+handler.register(app)
 
 module.exports = app;
