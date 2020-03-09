@@ -1,25 +1,22 @@
 var express = require('express');
-var path = require('path');
+var assets = require('./config/assets')
 var logger = require('morgan');
+var Protocols = require('./config/protocols')
+var Router = require('./config/router')
+var ErrorHandler = require('./errors/handler')
+
 var app = express();
 
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'ejs');
+assets.register(app, __dirname)
 
 app.use(logger('dev'));
 
-var Protocols = require('./config/protocols')
 protocols = new Protocols(app)
 protocols.register()
 
-app.use(express.static(path.join(__dirname, 'public')));
-
-var Router = require('./config/router')
 router = new Router(app)
 router.register()
 
-var ErrorHandler = require('./errors/handler')
 handler = new ErrorHandler(app)
 handler.register()
 
