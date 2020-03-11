@@ -7,6 +7,7 @@ var handler = require('./config/handler')
 
 var app = express();
 
+require('dotenv').config()
 app.use(logger('dev'))
 protocols.register(app)
 router.register(app)
